@@ -53,7 +53,7 @@ VERBOSE=
 # ... then code in directories named COMPONENT_foo and COMPONENT_bar will be
 # added to the build
 #
-COMPONENTS+=FREERTOS RTOS_AWARE  
+COMPONENTS+=FREERTOS RTOS_AWARE
 
 # Like COMPONENTS, but disable optional code that was enabled by default.
 DISABLE_COMPONENTS=
@@ -73,6 +73,11 @@ INCLUDES+=
 
 # Add additional defines to the build process (without a leading -D).
 DEFINES+=CY_RETARGET_IO_CONVERT_LF_TO_CRLF
+
+# Disable conflicting typedefs when building with LLVM/ATfE v22.1
+ifeq ($(TOOLCHAIN),LLVM_ARM)
+DEFINES+=posixconfigENABLE_USECONDS_T=0 posixconfigENABLE_OFF_T=0
+endif
 
 # Select softfp or hardfp floating point. Default is softfp.
 VFP_SELECT+=
@@ -121,11 +126,11 @@ CY_APP_PATH=
 
 # Relative path to the shared repo location.
 #
-# All .mtb files have the format, <URI>#<COMMIT>#<LOCATION>. If the <LOCATION> 
-# field begins with $$ASSET_REPO$$, then the repo is deposited in the path 
-# specified by the CY_GETLIBS_SHARED_PATH variable. The default location is one 
+# All .mtb files have the format, <URI>#<COMMIT>#<LOCATION>. If the <LOCATION>
+# field begins with $$ASSET_REPO$$, then the repo is deposited in the path
+# specified by the CY_GETLIBS_SHARED_PATH variable. The default location is one
 # directory level above the current app directory.
-# This is used with CY_GETLIBS_SHARED_NAME variable, which specifies the 
+# This is used with CY_GETLIBS_SHARED_NAME variable, which specifies the
 # directory name.
 CY_GETLIBS_SHARED_PATH=../..
 
